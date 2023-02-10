@@ -1,0 +1,90 @@
+use std::ops::Add;
+use std::ops::Sub;
+use std::ops::Mul;
+use std::ops::Div;
+
+struct Vector2d {
+    x: f32,
+    y: f32,
+}
+
+impl Vector2d {
+    fn new(x: f32, y: f32) -> Vector2d {
+        Vector2d { x: x, y: y }
+    }
+
+    fn normalize(&mut self) {
+        let norm = (self.x * self.x + self.y * self.y).sqrt();
+        self.x /= norm;
+        self.y /= norm;
+    }
+
+    fn average(vectors : Vec<Vector2d>) -> Vector2d {
+        let mut sum = Vector2d::new(0.0, 0.0);
+        for vector in vectors {
+            sum = sum + vector;
+        }
+        sum / vectors.len() as f32
+    }
+
+    fn zero() -> Vector2d {
+        Vector2d::new(0.0, 0.0)
+    }
+
+    fn distance(&self, other : Vector2d) -> f32 {
+        let dx = self.x - other.x;
+        let dy = self.y - other.y;
+        (dx * dx + dy * dy).sqrt()
+    }
+}
+
+impl Default for Vector2d {
+    fn default() -> Vector2d {
+        Vector2d { x: 0.0, y: 0.0 }
+    }
+}
+
+impl Add for Vector2d {
+    type Output = Vector2d;
+
+    fn add(self, other: Vector2d) -> Vector2d {
+        Vector2d {
+            x: self.x + other.x,
+            y: self.y + other.y,
+        }
+    }
+}
+
+impl Sub for Vector2d {
+    type Output = Vector2d;
+
+    fn sub(self, other: Vector2d) -> Vector2d {
+        Vector2d {
+            x: self.x - other.x,
+            y: self.y - other.y,
+        }
+    }
+}
+
+impl Mul<f32> for Vector2d {
+    type Output = Vector2d;
+
+    fn mul(self, other: f32) -> Vector2d {
+        Vector2d {
+            x: self.x * other,
+            y: self.y * other,
+        }
+    }
+}
+
+impl Div<f32> for Vector2d {
+    type Output = Vector2d;
+
+    fn div(self, other: f32) -> Vector2d {
+        Vector2d {
+            x: self.x / other,
+            y: self.y / other,
+        }
+    }
+}
+
